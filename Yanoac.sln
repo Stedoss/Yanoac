@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yanoac", "Yanoac\Yanoac.csproj", "{8CB0E991-C0C7-4DDD-9FB1-0E3CF880004C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yanoac.IntegrationTests", "Yanoac.IntegrationTests\Yanoac.IntegrationTests.csproj", "{BE0E62B2-F752-430E-83DE-7F41E5E5A75C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8CB0E991-C0C7-4DDD-9FB1-0E3CF880004C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CB0E991-C0C7-4DDD-9FB1-0E3CF880004C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CB0E991-C0C7-4DDD-9FB1-0E3CF880004C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CB0E991-C0C7-4DDD-9FB1-0E3CF880004C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE0E62B2-F752-430E-83DE-7F41E5E5A75C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE0E62B2-F752-430E-83DE-7F41E5E5A75C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE0E62B2-F752-430E-83DE-7F41E5E5A75C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE0E62B2-F752-430E-83DE-7F41E5E5A75C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
