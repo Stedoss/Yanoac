@@ -14,7 +14,7 @@ public class BeatmapsFragmentTests : AuthenticatedClientTest
     [Test, TestCaseSource(nameof(testBeatmaps))]
     public async Task LookupBeatmap_ReturnsCorrectModel_WhenRequestObjectIsPassed(Beatmap testBeatmap)
     {
-        var beatmap = await Client.Beatmaps.LookupBeatmap(new LookupBeatmapRequest { Id =  testBeatmap.Id });
+        var beatmap = await Client.Beatmaps.LookupBeatmap(new LookupBeatmapRequest { Id = testBeatmap.Id });
 
        Assert.That(beatmap.AsTestable(), Is.EqualTo(testBeatmap.AsTestable()));
     }

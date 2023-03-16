@@ -9,7 +9,7 @@ public static class BeatmapTestExtensions
     public static Beatmap AsTestable(this Beatmap beatmap) =>
         beatmap with
         {
-            PlayCount = 0,
-            PassCount = 0
+            PlayCount = default,
+            PassCount = default,
         };
 }
