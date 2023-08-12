@@ -1,6 +1,7 @@
 ﻿using System.Web;
+using Yanoac.Client;
 
-namespace Yanoac.ClientV2.Requests;
+namespace Yanoac.V2.Requests;
 
 public class LookupBeatmapRequest : IRequest
 {

@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
 using NUnit.Framework;
-using Yanoac.ClientV2.Models.Beatmap;
-using Yanoac.ClientV2.Requests;
 using Yanoac.IntegrationTests.Bases;
 using Yanoac.IntegrationTests.Data;
 using Yanoac.IntegrationTests.Helpers;
+using Yanoac.V2.Models.Beatmap;
+using Yanoac.V2.Requests;
 
 namespace Yanoac.IntegrationTests.Fragments;
 

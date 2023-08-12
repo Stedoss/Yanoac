@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace Yanoac.ClientV2.Requests;
+﻿namespace Yanoac.Client;
 
 public interface IRequest
 {

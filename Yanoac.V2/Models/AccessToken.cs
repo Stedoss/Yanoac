@@ -1,4 +1,4 @@
-﻿namespace Yanoac.ClientV2.Models;
+﻿namespace Yanoac.V2.Models;
 
 public class AccessToken
 {

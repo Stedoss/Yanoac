@@ -1,19 +1,19 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
-using Yanoac.ClientV2.Models.Beatmap;
-using Yanoac.ClientV2.Requests;
+﻿using System.Threading.Tasks;
+using Yanoac.Client;
+using Yanoac.V2.Models.Beatmap;
+using Yanoac.V2.Requests;
 
-namespace Yanoac.ClientV2.Fragments;
+namespace Yanoac.V2.Fragments;
 
 public class BeatmapsFragment : Fragment
 {
-    public BeatmapsFragment(HttpClient httpClient, OsuClientV2Settings settings) : base(httpClient, settings)
+    public BeatmapsFragment(OsuHttpClient httpClient, OsuClientV2Settings settings) : base(httpClient, settings)
     {
     }
 
     public async Task<Beatmap> LookupBeatmap(LookupBeatmapRequest request)
     {
-        return await Fetch<Beatmap>(request);
+        return await Client.Fetch<Beatmap>(request);
     }
 
     public async Task<Beatmap> LookupBeatmap(int? id = null, string? filename = null, string? checksum = null)
@@ -30,7 +30,7 @@ public class BeatmapsFragment : Fragment
 
     public async Task<BeatmapUserScore> GetUserBeatmapScore(UserBeatmapScoreRequest request)
     {
-        return await Fetch<BeatmapUserScore>(request);
+        return await Client.Fetch<BeatmapUserScore>(request);
     }
 
     public async Task<BeatmapUserScore> GetUserBeatmapScore(int beatmapId, int userId)

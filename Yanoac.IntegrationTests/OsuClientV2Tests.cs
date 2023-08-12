@@ -1,11 +1,9 @@
 using System.Threading.Tasks;
 using NUnit.Framework;
-using Yanoac.ClientV2;
-using Yanoac.IntegrationTests.Bases;
 
 namespace Yanoac.IntegrationTests;
 
-public class OsuClientV2Tests : AuthenticatedClientTest
+public class OsuClientV2Tests
 {
     [Test]
     public async Task Authorise_AuthenticatesWithApi()
@@ -14,6 +12,16 @@ public class OsuClientV2Tests : AuthenticatedClientTest
 
         await client.Authorise();
 
+        Assert.That(client.IsAuthenticated, Is.True);
+    }
+
+    [Test]
+    public async Task Authorise_ACG_AuthenticatedWithApi()
+    {
+        var client = ClientHelpers.AuthenticationCodeTestClient;
+        
+        await client.Authorise("http://localhost:4567/");
+        
         Assert.That(client.IsAuthenticated, Is.True);
     }
 }

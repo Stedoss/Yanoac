@@ -1,4 +1,6 @@
-﻿namespace Yanoac.ClientV2.Requests;
+﻿using Yanoac.Client;
+
+namespace Yanoac.V2.Requests;
 
 public class UserBeatmapScoreRequest : IRequest
 {

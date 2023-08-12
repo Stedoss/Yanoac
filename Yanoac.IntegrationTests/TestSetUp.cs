@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using NUnit.Framework;
 
 namespace Yanoac.IntegrationTests;
@@ -8,5 +7,9 @@ namespace Yanoac.IntegrationTests;
 public class TestSetUp
 {
     [OneTimeSetUp]
-    public async Task SetUp() => await ClientHelpers.AuthenticatedTestClient.Authorise();
+    public async Task SetUp()
+    {
+        await ClientHelpers.AuthenticatedTestClient.Authorise();
+        await ClientHelpers.AuthenticationCodeTestClient.Authorise("http://localhost:4567/");
+    }
 }

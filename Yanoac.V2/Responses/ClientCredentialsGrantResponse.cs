@@ -1,7 +1,8 @@
 ﻿using System.Text.Json.Serialization;
-using Yanoac.ClientV2.Models;
+using Yanoac.Client;
+using Yanoac.V2.Models;
 
-namespace Yanoac.ClientV2.Responses;
+namespace Yanoac.V2.Responses;
 
 public class ClientCredentialsGrantResponse
 {

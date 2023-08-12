@@ -1,4 +1,4 @@
-﻿namespace Yanoac.ClientV2;
+﻿namespace Yanoac.V2;
 
 public class OsuClientV2Settings
 {

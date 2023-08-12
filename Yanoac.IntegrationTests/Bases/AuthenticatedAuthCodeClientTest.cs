@@ -3,14 +3,13 @@ using Yanoac.V2;
 
 namespace Yanoac.IntegrationTests.Bases;
 
-[TestFixture]
-public abstract class AuthenticatedClientTest
+public class AuthenticatedAuthCodeClientTest
 {
     [SetUp]
     public void SetUp()
     {
-        Client = ClientHelpers.AuthenticatedTestClient;
+        Client = ClientHelpers.AuthenticationCodeTestClient;
     }
-
+    
     protected OsuClientV2 Client { get; private set; } = null!;
 }

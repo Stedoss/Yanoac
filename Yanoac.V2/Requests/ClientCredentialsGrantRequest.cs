@@ -1,13 +1,13 @@
 ﻿using System.Text.Json.Serialization;
+using Yanoac.Client;
+using Yanoac.V2.Responses;
 
-namespace Yanoac.ClientV2.Requests;
+namespace Yanoac.V2.Requests;
 
 public class ClientCredentialsGrantRequest : IRequest
 {
-    [JsonIgnore]
     public string Endpoint => "https://osu.ppy.sh/oauth/token";
 
-    [JsonIgnore]
     public string QueryString => Endpoint;
     
     [JsonPropertyName("client_id")]

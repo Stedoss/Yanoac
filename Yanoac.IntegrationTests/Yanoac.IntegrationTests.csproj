@@ -14,8 +14,9 @@
         <PackageReference Include="coverlet.collector" Version="3.1.0" />
     </ItemGroup>
 
+
     <ItemGroup>
-      <ProjectReference Include="..\Yanoac\Yanoac.csproj" />
+      <ProjectReference Include="..\Yanoac.V2\Yanoac.V2.csproj" />
     </ItemGroup>
 
 </Project>

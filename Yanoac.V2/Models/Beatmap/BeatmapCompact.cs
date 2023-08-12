@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Yanoac.ClientV2.Models.Beatmap;
+namespace Yanoac.V2.Models.Beatmap;
 
 public record BeatmapCompact
 {

@@ -1,5 +1,5 @@
 ﻿using System;
-using Yanoac.ClientV2.Models.Beatmap;
+using Yanoac.V2.Models.Beatmap;
 
 namespace Yanoac.IntegrationTests.Data;
 
