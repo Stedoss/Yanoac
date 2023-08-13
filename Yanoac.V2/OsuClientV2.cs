@@ -115,9 +115,7 @@ namespace Yanoac.V2
             var fetchResponse = await base.Fetch(request);
 
             if (fetchResponse.StatusCode != HttpStatusCode.Unauthorized)
-            {
                 return fetchResponse;
-            }
 
             if (RefreshToken is null || CallbackUrl is null)
                 await Authorise();
