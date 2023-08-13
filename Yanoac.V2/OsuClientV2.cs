@@ -11,7 +11,7 @@ using Yanoac.V2.Responses;
 
 namespace Yanoac.V2
 {
-    public partial class OsuClientV2 : OsuClient, IOsuClientV2
+    public partial class OsuClientV2 : OsuClient
     {
         public OsuClientV2(OsuClientV2Settings? settings = null, HttpClient? httpClient = null)
             : base(httpClient ?? new HttpClient())
@@ -48,7 +48,7 @@ namespace Yanoac.V2
             }
         }
 
-        public async Task Authorise()
+        public override async Task Authorise()
         {
             var request = new ClientCredentialsGrantRequest
             {
@@ -61,7 +61,7 @@ namespace Yanoac.V2
             AccessToken = response.ToAccessToken();
         }
 
-        public async Task Authorise(string callbackUrl)
+        public override async Task Authorise(string callbackUrl)
         {
             using var listener =  new HttpListener();
             listener.Prefixes.Add(callbackUrl);
