@@ -1,24 +1,25 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
+using System.Web;
 using Yanoac.Client;
-using Yanoac.V2.Responses;
+using Yanoac.V2.Models.Requests;
 
 namespace Yanoac.V2.Requests;
 
-public class ClientCredentialsGrantRequest : IRequest
+public class ClientCredentialsGrantRequest : IRequestWithForm
 {
-    public string Endpoint => "https://osu.ppy.sh/oauth/token";
+    public string QueryString => $"https://osu.ppy.sh/oauth/token";
+    
+    private static string GrantType => "client_credentials";
+    private static string Scope => "public";
+    public string ClientId { get; set; } = null!;
+    public string ClientSecret { get; set; } = null!;
 
-    public string QueryString => Endpoint;
-    
-    [JsonPropertyName("client_id")]
-    public string ClientId { get; set; }
-    
-    [JsonPropertyName("client_secret")]
-    public string ClientSecret { get; set; }
-
-    [JsonPropertyName("grant_type")]
-    public string GrantType => "client_credentials";
-    
-    [JsonPropertyName("scope")]
-    public string Scope => "public";
+    public Dictionary<string, string> Form => new()
+    {
+        { "client_id", ClientId },
+        { "client_secret", ClientSecret },
+        { "grant_type", GrantType },
+        { "scope", Scope },
+    };
 }

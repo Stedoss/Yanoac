@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net.Http;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -35,11 +34,12 @@ public class OsuHttpClient
         return await responseContent.ReadAsStringAsync() ?? throw new Exception();
     }
     
-    public async Task<T> Post<T>(IRequest request)
+    public async Task<T> Post<T>(IRequestWithForm request)
     {
-        var resp = await Client.PostAsync(request.QueryString,
-            new StringContent(JsonSerializer.Serialize(request as object), Encoding.UTF8, "application/json"));
+        
+        var resp = await Client.PostAsync(request.QueryString, new FormUrlEncodedContent(request.Form));
         var responseContent = resp.Content;
+        
 
         var objectResponse = await JsonSerializer.DeserializeAsync<T>(await responseContent.ReadAsStreamAsync());
 
