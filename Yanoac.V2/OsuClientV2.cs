@@ -24,7 +24,7 @@ namespace Yanoac.V2
         }
 
         private OsuClientV2Settings _settings;
-
+        
         public OsuClientV2Settings Settings
         {
             get => _settings;
@@ -41,7 +41,19 @@ namespace Yanoac.V2
 
         public bool IsAuthenticated => !string.IsNullOrWhiteSpace(AccessToken?.Token);
         
-        private AccessToken? AccessToken { get; set; }
+        private AccessToken? _accessToken;
+
+        private AccessToken? AccessToken
+        {
+            get => _accessToken;
+            set
+            {
+                if (value is not null)
+                    UnderlyingClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", value.Token);
+
+                _accessToken = value;
+            }
+        }
 
         public async Task Authorise()
         {
@@ -54,8 +66,6 @@ namespace Yanoac.V2
             var response = await Client.Post<ClientCredentialsGrantResponse>(request);
 
             AccessToken = response.ToAccessToken();
-
-            UnderlyingClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken.Token);
         }
 
         public async Task Authorise(string callbackUrl)
@@ -98,8 +108,6 @@ namespace Yanoac.V2
             var tokenResponse = await Client.Post<ClientCredentialsGrantResponse>(tokenRequest);
 
             AccessToken = tokenResponse.ToAccessToken();
-            
-            UnderlyingClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken.Token);
         }
     }
 }
