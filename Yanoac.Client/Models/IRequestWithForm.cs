@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Yanoac.Client;
+namespace Yanoac.Client.Models;
 
 public interface IRequestWithForm : IRequest
 {

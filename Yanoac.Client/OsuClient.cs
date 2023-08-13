@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Yanoac.Client.Models;
 
 namespace Yanoac.Client;
 
@@ -17,24 +18,8 @@ public abstract class OsuClient
     
     public HttpClient Client { get; }
     
-    protected virtual async Task<T> Fetch<T>(IRequest request)
-    {
-        var resp = await Client.GetAsync(request.QueryString);
-        var responseContent = resp.Content;
-
-        var objectResponse = await JsonSerializer.DeserializeAsync<T>(await responseContent.ReadAsStreamAsync());
-
-        return objectResponse ?? throw new Exception();
-    }
-
-    protected async Task<string> FetchAsString(IRequest request)
-    {
-        var resp = await Client.GetAsync(request.QueryString);
-        
-        var responseContent = resp.Content;
-
-        return await responseContent.ReadAsStringAsync() ?? throw new Exception();
-    }
+    protected virtual async Task<FetchResponse> Fetch(IRequest request) => 
+        new(await Client.GetAsync(request.QueryString));
 
     protected async Task<T> Post<T>(IRequestWithForm request)
     {

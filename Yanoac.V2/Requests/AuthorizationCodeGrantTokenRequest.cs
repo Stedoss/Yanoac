@@ -2,6 +2,7 @@
 using System.Text.Json.Serialization;
 using System.Web;
 using Yanoac.Client;
+using Yanoac.Client.Models;
 
 namespace Yanoac.V2.Requests;
 

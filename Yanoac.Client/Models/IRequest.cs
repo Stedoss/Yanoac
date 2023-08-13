@@ -1,4 +1,4 @@
-﻿namespace Yanoac.Client;
+﻿namespace Yanoac.Client.Models;
 
 public interface IRequest
 {

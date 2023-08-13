@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Yanoac.Client;
+using Yanoac.Client.Models;
 using Yanoac.V2.Models;
 using Yanoac.V2.Requests;
 using Yanoac.V2.Responses;
@@ -109,19 +110,21 @@ namespace Yanoac.V2
             CallbackUrl = callbackUrl;
         }
 
-        protected override async Task<T> Fetch<T>(IRequest request)
+        protected override async Task<FetchResponse> Fetch(IRequest request)
         {
-            var fetchResponse = await base.Fetch<T>(request);
+            var fetchResponse = await base.Fetch(request);
 
-            if (fetchResponse is null)
+            if (fetchResponse.StatusCode != HttpStatusCode.Unauthorized)
             {
-                if (RefreshToken is null || CallbackUrl is null)
-                    await Authorise();
-                else
-                    await Authorise(CallbackUrl);
+                return fetchResponse;
             }
 
-            return fetchResponse ?? await base.Fetch<T>(request);
+            if (RefreshToken is null || CallbackUrl is null)
+                await Authorise();
+            else
+                await Authorise(CallbackUrl);
+
+            return await base.Fetch(request);
         }
     }
 }

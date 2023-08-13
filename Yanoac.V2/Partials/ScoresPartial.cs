@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Yanoac.Client;
+using Yanoac.Client.Models;
 using Yanoac.V2.Requests;
 
 namespace Yanoac.V2;
@@ -14,6 +15,8 @@ public partial class OsuClientV2
             Score = score
         };
 
-        return await FetchAsString(request);
+        var fetchResponse = await Fetch(request);
+
+        return await fetchResponse.ContentAsString();
     }
 }
