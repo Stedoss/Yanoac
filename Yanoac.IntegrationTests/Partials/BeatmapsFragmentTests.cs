@@ -6,7 +6,7 @@ using Yanoac.IntegrationTests.Helpers;
 using Yanoac.V2.Models.Beatmap;
 using Yanoac.V2.Requests;
 
-namespace Yanoac.IntegrationTests.Fragments;
+namespace Yanoac.IntegrationTests.Partials;
 
 [TestFixture]
 public class BeatmapsFragmentTests : AuthenticatedClientTest
@@ -14,7 +14,7 @@ public class BeatmapsFragmentTests : AuthenticatedClientTest
     [Test, TestCaseSource(nameof(testBeatmaps))]
     public async Task LookupBeatmap_ReturnsCorrectModel_WhenRequestObjectIsPassed(Beatmap testBeatmap)
     {
-        var beatmap = await Client.Beatmaps.LookupBeatmap(new LookupBeatmapRequest { Id = testBeatmap.Id });
+        var beatmap = await Client.LookupBeatmap(new LookupBeatmapRequest { Id = testBeatmap.Id });
 
        Assert.That(beatmap.AsTestable(), Is.EqualTo(testBeatmap.AsTestable()));
     }
@@ -22,7 +22,7 @@ public class BeatmapsFragmentTests : AuthenticatedClientTest
     [Test, TestCaseSource(nameof(testBeatmaps))]
     public async Task LookupBeatmap_ReturnsCorrectModel_WhenRawParametersPassed(Beatmap testBeatmap)
     {
-        var beatmap = await Client.Beatmaps.LookupBeatmap(1860433);
+        var beatmap = await Client.LookupBeatmap(1860433);
         
         Assert.That(beatmap.AsTestable(), Is.EqualTo(testBeatmap.AsTestable()));
     }
@@ -30,13 +30,13 @@ public class BeatmapsFragmentTests : AuthenticatedClientTest
     [Test]
     public async Task GetUserBeatmapScore_ReturnsCorrectModel_WhenRequestObjectIsPassed()
     {
-        var score = await Client.Beatmaps.GetUserBeatmapScore(new UserBeatmapScoreRequest { BeatmapId = 95202, UserId = 8331546 });
+        var score = await Client.GetUserBeatmapScore(new UserBeatmapScoreRequest { BeatmapId = 95202, UserId = 8331546 });
     }
     
     [Test]
     public async Task GetUserBeatmapScore_ReturnsCorrectModel_WhenRawParametersPassed()
     {
-        var score = await Client.Beatmaps.GetUserBeatmapScore(95202, 8331546);
+        var score = await Client.GetUserBeatmapScore(95202, 8331546);
     }
 
     private static Beatmap[] testBeatmaps => BeatmapTestData.TestBeatmaps;

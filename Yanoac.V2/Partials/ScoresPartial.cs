@@ -2,14 +2,10 @@
 using Yanoac.Client;
 using Yanoac.V2.Requests;
 
-namespace Yanoac.V2.Fragments;
+namespace Yanoac.V2;
 
-public class ScoresFragment : Fragment
+public partial class OsuClientV2
 {
-    public ScoresFragment(OsuHttpClient httpClient, OsuClientV2Settings settings) : base(httpClient, settings)
-    {
-    }
-
     public async Task<string> DownloadScore(string mode, string score)
     {
         var request = new DownloadScoreRequest
@@ -18,6 +14,6 @@ public class ScoresFragment : Fragment
             Score = score
         };
 
-        return await Client.FetchAsString(request);
+        return await FetchAsString(request);
     }
 }

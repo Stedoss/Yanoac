@@ -1,26 +1,22 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Net;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Yanoac.Client;
-using Yanoac.V2.Fragments;
 using Yanoac.V2.Models;
 using Yanoac.V2.Requests;
 using Yanoac.V2.Responses;
 
 namespace Yanoac.V2
 {
-    public class OsuClientV2 : Fragment, IOsuClientV2
+    public partial class OsuClientV2 : OsuClient, IOsuClientV2
     {
-        public OsuClientV2(OsuClientV2Settings? settings = null, OsuHttpClient? httpClient = null)
-            : base(httpClient ?? new(), settings ?? new OsuClientV2Settings())
+        public OsuClientV2(OsuClientV2Settings? settings = null, HttpClient? httpClient = null)
+            : base(httpClient ?? new HttpClient())
         {
             Settings = settings ?? new OsuClientV2Settings();
-            
-            
-            Beatmaps = new BeatmapsFragment(Client, Settings);
-            Scores = new ScoresFragment(Client, Settings);
         }
 
         private OsuClientV2Settings _settings;
@@ -30,14 +26,11 @@ namespace Yanoac.V2
             get => _settings;
             set
             {
-                UnderlyingClient.BaseAddress = new Uri(value.BaseUrl);
+                Client.BaseAddress = new Uri(value.BaseUrl);
                 
                 _settings = value;
             }
         }
-
-        public BeatmapsFragment Beatmaps { get; }
-        public ScoresFragment Scores { get; }
 
         public bool IsAuthenticated => !string.IsNullOrWhiteSpace(AccessToken?.Token);
         
@@ -49,7 +42,7 @@ namespace Yanoac.V2
             set
             {
                 if (value is not null)
-                    UnderlyingClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", value.Token);
+                    Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", value.Token);
 
                 _accessToken = value;
             }
@@ -63,7 +56,7 @@ namespace Yanoac.V2
                 ClientSecret = Settings.ClientSecret
             };
 
-            var response = await Client.Post<ClientCredentialsGrantResponse>(request);
+            var response = await Post<ClientCredentialsGrantResponse>(request);
 
             AccessToken = response.ToAccessToken();
         }
@@ -105,7 +98,7 @@ namespace Yanoac.V2
                 RedirectUri = callbackUrl
             };
 
-            var tokenResponse = await Client.Post<ClientCredentialsGrantResponse>(tokenRequest);
+            var tokenResponse = await Post<ClientCredentialsGrantResponse>(tokenRequest);
 
             AccessToken = tokenResponse.ToAccessToken();
         }

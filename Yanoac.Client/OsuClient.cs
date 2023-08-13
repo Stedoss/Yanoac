@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace Yanoac.Client;
 
-public class OsuHttpClient
+public class OsuClient
 {
-    public OsuHttpClient(HttpClient? client = null)
+    public OsuClient(HttpClient? client = null)
     {
         client ??= new HttpClient();
 
