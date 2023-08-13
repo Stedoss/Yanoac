@@ -8,5 +8,5 @@ public record BeatmapUserScore
     public int Position { get; set; }
 
     [JsonPropertyName("score")]
-    public ScoreModel Score { get; set; }  = null!;
+    public ScoreModel Score { get; set; } = null!;
 }

@@ -26,7 +26,7 @@ public class LookupBeatmapRequest : IRequest
 
         if (!string.IsNullOrWhiteSpace(Filename))
             queryString.Add("filename", Filename);
-        
+
         if (Id > 0)
             queryString.Add("id", Id.ToString());
 

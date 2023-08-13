@@ -10,6 +10,6 @@ public class AuthenticatedAuthCodeClientTest
     {
         Client = ClientHelpers.AuthenticationCodeTestClient;
     }
-    
+
     protected OsuClientV2 Client { get; private set; } = null!;
 }

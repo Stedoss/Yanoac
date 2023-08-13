@@ -54,7 +54,7 @@ namespace Yanoac.V2
 
         public async Task Authorise(string callbackUri)
         {
-            using var listener =  new HttpListener();
+            using var listener = new HttpListener();
             listener.Prefixes.Add(callbackUri);
             listener.Start();
 
@@ -74,7 +74,7 @@ namespace Yanoac.V2
             var listenerContext = await listener.GetContextAsync();
             var listenerRequest = listenerContext.Request;
 
-            string[] codeSplit = listenerRequest.RawUrl.Split(new[] {"code="}, StringSplitOptions.None);
+            string[] codeSplit = listenerRequest.RawUrl.Split(new[] { "code=" }, StringSplitOptions.None);
 
             if (codeSplit.Length < 2)
                 throw new Exception();

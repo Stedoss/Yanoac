@@ -27,7 +27,7 @@ public partial class OsuClientV2
 
     public async Task<BeatmapUserScore?> GetUserBeatmapScore(UserBeatmapScoreRequest request)
     {
-        var fetchResponse =  await Fetch(request);
+        var fetchResponse = await Fetch(request);
 
         return await fetchResponse.ContentAsJson<BeatmapUserScore>();
     }

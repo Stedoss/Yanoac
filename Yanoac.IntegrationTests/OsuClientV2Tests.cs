@@ -16,7 +16,7 @@ public class OsuClientV2Tests
     public void Authorise_ACG_AuthenticatedWithApi()
     {
         var client = ClientHelpers.AuthenticationCodeTestClient;
-        
+
         Assert.That(client.IsAuthenticated, Is.True);
     }
 }
