@@ -47,8 +47,12 @@ namespace Yanoac.V2
                 _accessToken = value;
             }
         }
+        
+        private string? RefreshToken { get; set; }
+        
+        private string? CallbackUrl { get; set; }
 
-        public override async Task Authorise()
+        public async Task Authorise()
         {
             var request = new ClientCredentialsGrantRequest
             {
@@ -61,7 +65,7 @@ namespace Yanoac.V2
             AccessToken = response.ToAccessToken();
         }
 
-        public override async Task Authorise(string callbackUrl)
+        public async Task Authorise(string callbackUrl)
         {
             using var listener =  new HttpListener();
             listener.Prefixes.Add(callbackUrl);
@@ -101,6 +105,23 @@ namespace Yanoac.V2
             var tokenResponse = await Post<ClientCredentialsGrantResponse>(tokenRequest);
 
             AccessToken = tokenResponse.ToAccessToken();
+
+            CallbackUrl = callbackUrl;
+        }
+
+        protected override async Task<T> Fetch<T>(IRequest request)
+        {
+            var fetchResponse = await base.Fetch<T>(request);
+
+            if (fetchResponse is null)
+            {
+                if (RefreshToken is null || CallbackUrl is null)
+                    await Authorise();
+                else
+                    await Authorise(CallbackUrl);
+            }
+
+            return fetchResponse ?? await base.Fetch<T>(request);
         }
     }
 }

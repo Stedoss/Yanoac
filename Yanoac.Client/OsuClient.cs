@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Yanoac.Client;
 
-public class OsuClient
+public abstract class OsuClient
 {
     public OsuClient(HttpClient? client = null)
     {
@@ -16,7 +17,7 @@ public class OsuClient
     
     public HttpClient Client { get; }
     
-    public async Task<T> Fetch<T>(IRequest request)
+    protected virtual async Task<T> Fetch<T>(IRequest request)
     {
         var resp = await Client.GetAsync(request.QueryString);
         var responseContent = resp.Content;
@@ -25,16 +26,17 @@ public class OsuClient
 
         return objectResponse ?? throw new Exception();
     }
-    
-    public async Task<string> FetchAsString(IRequest request)
+
+    protected async Task<string> FetchAsString(IRequest request)
     {
         var resp = await Client.GetAsync(request.QueryString);
+        
         var responseContent = resp.Content;
 
         return await responseContent.ReadAsStringAsync() ?? throw new Exception();
     }
-    
-    public async Task<T> Post<T>(IRequestWithForm request)
+
+    protected async Task<T> Post<T>(IRequestWithForm request)
     {
         
         var resp = await Client.PostAsync(request.QueryString, new FormUrlEncodedContent(request.Form));
