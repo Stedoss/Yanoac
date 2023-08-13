@@ -16,15 +16,15 @@ public class BeatmapsFragmentTests : AuthenticatedClientTest
     {
         var beatmap = await Client.LookupBeatmap(new LookupBeatmapRequest { Id = testBeatmap.Id });
 
-       Assert.That(beatmap.AsTestable(), Is.EqualTo(testBeatmap.AsTestable()));
+       Assert.That(beatmap?.AsTestable(), Is.EqualTo(testBeatmap.AsTestable()));
     }
 
     [Test, TestCaseSource(nameof(testBeatmaps))]
     public async Task LookupBeatmap_ReturnsCorrectModel_WhenRawParametersPassed(Beatmap testBeatmap)
     {
         var beatmap = await Client.LookupBeatmap(1860433);
-        
-        Assert.That(beatmap.AsTestable(), Is.EqualTo(testBeatmap.AsTestable()));
+
+        Assert.That(beatmap?.AsTestable(), Is.EqualTo(testBeatmap.AsTestable()));
     }
 
     [Test]
@@ -32,7 +32,7 @@ public class BeatmapsFragmentTests : AuthenticatedClientTest
     {
         var score = await Client.GetUserBeatmapScore(new UserBeatmapScoreRequest { BeatmapId = 95202, UserId = 8331546 });
     }
-    
+
     [Test]
     public async Task GetUserBeatmapScore_ReturnsCorrectModel_WhenRawParametersPassed()
     {

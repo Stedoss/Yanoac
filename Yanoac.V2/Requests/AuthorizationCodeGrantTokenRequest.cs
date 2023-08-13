@@ -1,7 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Text.Json.Serialization;
-using System.Web;
-using Yanoac.Client;
 using Yanoac.Client.Models;
 
 namespace Yanoac.V2.Requests;
@@ -9,8 +6,8 @@ namespace Yanoac.V2.Requests;
 public class AuthorizationCodeGrantTokenRequest : IRequestWithForm
 {
     public string QueryString => $"https://osu.ppy.sh/oauth/token";
-    
-    private static string GrantType => "authorization_code";
+
+    private static string grantType => "authorization_code";
     public string ClientId { get; set; } = null!;
     public string ClientSecret { get; set; } = null!;
     public string Code { get; set; } = null!;
@@ -21,7 +18,7 @@ public class AuthorizationCodeGrantTokenRequest : IRequestWithForm
         { "client_id", ClientId },
         { "client_secret", ClientSecret },
         { "redirect_uri", RedirectUri },
-        { "grant_type", GrantType },
+        { "grant_type", grantType },
         { "code", Code },
     };
 }

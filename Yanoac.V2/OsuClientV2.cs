@@ -14,44 +14,32 @@ namespace Yanoac.V2
 {
     public partial class OsuClientV2 : OsuClient
     {
-        public OsuClientV2(OsuClientV2Settings? settings = null, HttpClient? httpClient = null)
+        public OsuClientV2(OsuClientV2Settings? clientSettings = null, HttpClient? httpClient = null)
             : base(httpClient ?? new HttpClient())
         {
-            Settings = settings ?? new OsuClientV2Settings();
+            Settings = clientSettings ?? new OsuClientV2Settings();
         }
 
-        private OsuClientV2Settings _settings;
-        
+        private OsuClientV2Settings settings;
+
         public OsuClientV2Settings Settings
         {
-            get => _settings;
+            get => settings;
             set
             {
                 Client.BaseAddress = new Uri(value.BaseUrl);
-                
-                _settings = value;
+
+                settings = value;
             }
         }
 
-        public bool IsAuthenticated => !string.IsNullOrWhiteSpace(AccessToken?.Token);
-        
-        private AccessToken? _accessToken;
+        public bool IsAuthenticated => !string.IsNullOrWhiteSpace(accessToken?.Token);
 
-        private AccessToken? AccessToken
-        {
-            get => _accessToken;
-            set
-            {
-                if (value is not null)
-                    Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", value.Token);
+        private AccessToken? accessToken;
 
-                _accessToken = value;
-            }
-        }
-        
-        private string? RefreshToken { get; set; }
-        
-        private string? CallbackUrl { get; set; }
+        private string? refreshToken { get; set; }
+
+        private string? callbackUrl { get; set; }
 
         public async Task Authorise()
         {
@@ -63,21 +51,21 @@ namespace Yanoac.V2
 
             var response = await Post<ClientCredentialsGrantResponse>(request);
 
-            AccessToken = response.ToAccessToken();
+            setAccessToken(response.ToAccessToken());
         }
 
-        public async Task Authorise(string callbackUrl)
+        public async Task Authorise(string callbackUri)
         {
             using var listener =  new HttpListener();
-            listener.Prefixes.Add(callbackUrl);
+            listener.Prefixes.Add(callbackUri);
             listener.Start();
 
             var authorizationCodeGrantRequest = new AuthorizationCodeGrantRequest
             {
                 ClientId = Settings.ClientId,
-                RedirectUri = callbackUrl
+                RedirectUri = callbackUri
             };
-            
+
             Process.Start(new ProcessStartInfo
             {
                 FileName = authorizationCodeGrantRequest.QueryString,
@@ -88,26 +76,26 @@ namespace Yanoac.V2
             var listenerContext = await listener.GetContextAsync();
             var listenerRequest = listenerContext.Request;
 
-            var codeSplit = listenerRequest.RawUrl.Split(new[] {"code="}, StringSplitOptions.None);
+            string[] codeSplit = listenerRequest.RawUrl.Split(new[] {"code="}, StringSplitOptions.None);
 
             if (codeSplit.Length < 2)
                 throw new Exception();
 
-            var code = codeSplit[1];
+            string code = codeSplit[1];
 
             var tokenRequest = new AuthorizationCodeGrantTokenRequest
             {
                 Code = code,
                 ClientId = Settings.ClientId,
                 ClientSecret = Settings.ClientSecret,
-                RedirectUri = callbackUrl
+                RedirectUri = callbackUri
             };
 
             var tokenResponse = await Post<ClientCredentialsGrantResponse>(tokenRequest);
 
-            AccessToken = tokenResponse.ToAccessToken();
+            setAccessToken(tokenResponse.ToAccessToken());
 
-            CallbackUrl = callbackUrl;
+            callbackUrl = callbackUri;
         }
 
         protected override async Task<FetchResponse> Fetch(IRequest request)
@@ -117,12 +105,20 @@ namespace Yanoac.V2
             if (fetchResponse.StatusCode != HttpStatusCode.Unauthorized)
                 return fetchResponse;
 
-            if (RefreshToken is null || CallbackUrl is null)
+            if (refreshToken is null || callbackUrl is null)
                 await Authorise();
             else
-                await Authorise(CallbackUrl);
+                await Authorise(callbackUrl);
 
             return await base.Fetch(request);
+        }
+
+        private void setAccessToken(AccessToken? token)
+        {
+            if (token is not null)
+                Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Token);
+
+            accessToken = token;
         }
     }
 }

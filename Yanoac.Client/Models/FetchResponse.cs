@@ -7,18 +7,18 @@ namespace Yanoac.Client.Models;
 
 public class FetchResponse
 {
-    private readonly HttpResponseMessage _httpResponseMessage;
-    
-    public FetchResponse(HttpResponseMessage httpResponseMessage)
+    private readonly HttpResponseMessage httpResponseMessage;
+
+    public FetchResponse(HttpResponseMessage responseMessage)
     {
-        _httpResponseMessage = httpResponseMessage;
+        httpResponseMessage = responseMessage;
     }
 
-    public HttpStatusCode StatusCode => _httpResponseMessage.StatusCode;
+    public HttpStatusCode StatusCode => httpResponseMessage.StatusCode;
 
-    public bool IsSuccessStatusCode => _httpResponseMessage.IsSuccessStatusCode;
+    public bool IsSuccessStatusCode => httpResponseMessage.IsSuccessStatusCode;
 
-    public async Task<T?> ContentAsJson<T>() => await JsonSerializer.DeserializeAsync<T>(await _httpResponseMessage.Content.ReadAsStreamAsync());
-    
-    public async Task<string> ContentAsString() => await _httpResponseMessage.Content.ReadAsStringAsync();
+    public async Task<T?> ContentAsJson<T>() => await JsonSerializer.DeserializeAsync<T>(await httpResponseMessage.Content.ReadAsStreamAsync());
+
+    public async Task<string> ContentAsString() => await httpResponseMessage.Content.ReadAsStringAsync();
 }

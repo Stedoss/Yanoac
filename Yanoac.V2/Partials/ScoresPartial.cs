@@ -1,6 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Yanoac.Client;
-using Yanoac.Client.Models;
 using Yanoac.V2.Requests;
 
 namespace Yanoac.V2;
