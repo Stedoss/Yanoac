@@ -3,7 +3,7 @@ using Yanoac.V2.Models.Authentication;
 
 namespace Yanoac.V2.Responses;
 
-public class ClientCredentialsGrantResponse
+public class AuthorizationCodeGrantTokenResponse
 {
     [JsonPropertyName("token_type")]
     public string TokenType { get; set; } = null!;
@@ -14,9 +14,13 @@ public class ClientCredentialsGrantResponse
     [JsonPropertyName("access_token")]
     public string AccessToken { get; set; } = null!;
 
-    public ClientCredentialsAccessToken ToAccessToken() => new()
+    [JsonPropertyName("refresh_token")]
+    public string RefreshToken { get; set; } = null!;
+
+    public AuthorizationCodeAccessToken ToAccessToken() => new()
     {
         Token = AccessToken,
         ExpiresIn = ExpiresIn,
+        RefreshToken = RefreshToken,
     };
 }

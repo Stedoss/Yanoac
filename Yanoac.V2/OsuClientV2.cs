@@ -6,7 +6,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Yanoac.Client;
 using Yanoac.Client.Models;
-using Yanoac.V2.Models;
+using Yanoac.V2.Models.Authentication;
 using Yanoac.V2.Requests;
 using Yanoac.V2.Responses;
 
@@ -35,9 +35,7 @@ namespace Yanoac.V2
 
         public bool IsAuthenticated => !string.IsNullOrWhiteSpace(accessToken?.Token);
 
-        private AccessToken? accessToken;
-
-        private string? refreshToken { get; set; }
+        private IAccessToken? accessToken;
 
         private string? callbackUrl { get; set; }
 
@@ -91,7 +89,7 @@ namespace Yanoac.V2
                 RedirectUri = callbackUri
             };
 
-            var tokenResponse = await Post<ClientCredentialsGrantResponse>(tokenRequest);
+            var tokenResponse = await Post<AuthorizationCodeGrantTokenResponse>(tokenRequest);
 
             setAccessToken(tokenResponse.ToAccessToken());
 
@@ -105,7 +103,8 @@ namespace Yanoac.V2
             if (fetchResponse.StatusCode != HttpStatusCode.Unauthorized)
                 return fetchResponse;
 
-            if (refreshToken is null || callbackUrl is null)
+            // The access token may have expired, try authenticating again and re-run the request.
+            if (accessToken is ClientCredentialsAccessToken || callbackUrl is null)
                 await Authorise();
             else
                 await Authorise(callbackUrl);
@@ -113,7 +112,7 @@ namespace Yanoac.V2
             return await base.Fetch(request);
         }
 
-        private void setAccessToken(AccessToken? token)
+        private void setAccessToken(IAccessToken? token)
         {
             if (token is not null)
                 Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Token);
