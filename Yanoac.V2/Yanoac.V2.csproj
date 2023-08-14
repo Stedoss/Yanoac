@@ -4,6 +4,15 @@
         <TargetFramework>netstandard2.0</TargetFramework>
         <LangVersion>10</LangVersion>
         <Nullable>enable</Nullable>
+        <PackageId>Yanoac.V2.Beta.001</PackageId>
+        <Version>0.0.2</Version>
+        <Title>Yanoac</Title>
+        <Authors>Stedoss</Authors>
+        <Description>Yet another .NET osu! API client </Description>
+        <PackageProjectUrl>https://github.com/Stedoss/Yanoac</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/Stedoss/Yanoac</RepositoryUrl>
+        <PublishSingleFile>true</PublishSingleFile>
+        <SelfContained>true</SelfContained>
     </PropertyGroup>
 
     <ItemGroup>
