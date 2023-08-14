@@ -37,8 +37,6 @@ namespace Yanoac.V2
 
         private IAccessToken? accessToken;
 
-        private string? callbackUrl { get; set; }
-
         public async Task Authorise()
         {
             var request = new ClientCredentialsGrantRequest
@@ -92,8 +90,6 @@ namespace Yanoac.V2
             var tokenResponse = await Post<AuthorizationCodeGrantTokenResponse>(tokenRequest);
 
             setAccessToken(tokenResponse.ToAccessToken());
-
-            callbackUrl = callbackUri;
         }
 
         protected override async Task<FetchResponse> Fetch(IRequest request)
@@ -104,12 +100,26 @@ namespace Yanoac.V2
                 return fetchResponse;
 
             // The access token may have expired, try authenticating again and re-run the request.
-            if (accessToken is ClientCredentialsAccessToken || callbackUrl is null)
-                await Authorise();
-            else
-                await Authorise(callbackUrl);
+            await refreshAuthorisation();
 
             return await base.Fetch(request);
+        }
+
+        private async Task refreshAuthorisation()
+        {
+            if (accessToken is not AuthorizationCodeAccessToken authCodeAccessToken || authCodeAccessToken.Token is null)
+                throw new InvalidOperationException("Unable to refresh authorisation as no refresh token was found");
+
+            var request = new AuthorizationCodeGrantRefreshTokenRequest
+            {
+                ClientId = Settings.ClientId,
+                ClientSecret = Settings.ClientSecret,
+                RefreshToken = authCodeAccessToken.RefreshToken,
+            };
+
+            var tokenResponse = await Post<AuthorizationCodeGrantTokenResponse>(request);
+
+            setAccessToken(tokenResponse.ToAccessToken());
         }
 
         private void setAccessToken(IAccessToken? token)
