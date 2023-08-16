@@ -5,7 +5,7 @@ namespace Yanoac.V2;
 
 public partial class OsuClientV2
 {
-    public async Task<string> DownloadScore(string mode, string score)
+    public async Task<byte[]> DownloadScore(string mode, string score)
     {
         var request = new DownloadScoreRequest
         {
@@ -15,6 +15,6 @@ public partial class OsuClientV2
 
         var fetchResponse = await Fetch(request);
 
-        return await fetchResponse.ContentAsString();
+        return await fetchResponse.ContentAsByteArray();
     }
 }

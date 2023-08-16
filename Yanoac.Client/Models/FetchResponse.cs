@@ -21,4 +21,6 @@ public class FetchResponse
     public async Task<T?> ContentAsJson<T>() => await JsonSerializer.DeserializeAsync<T>(await httpResponseMessage.Content.ReadAsStreamAsync());
 
     public async Task<string> ContentAsString() => await httpResponseMessage.Content.ReadAsStringAsync();
+
+    public async Task<byte[]> ContentAsByteArray() => await httpResponseMessage.Content.ReadAsByteArrayAsync();
 }
