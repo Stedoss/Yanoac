@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
@@ -31,9 +32,11 @@ public class ScoresFragmentTests : AuthenticatedAuthCodeClientTest
     [Test]
     public async Task ScoreDownload()
     {
-        byte[] replay = await Client.DownloadScore("osu", "2610098209");
+        byte[] localReplay = await File.ReadAllBytesAsync("Assets\\2177560145.osr");
 
-        Assert.That(replay, Is.Not.Null);
+        byte[] downloadedReplay = await Client.DownloadScore("osu", "2177560145");
+
+        Assert.That(downloadedReplay, Is.EqualTo(localReplay));
     }
 
     private static readonly (string, long)[] test_score_list =
