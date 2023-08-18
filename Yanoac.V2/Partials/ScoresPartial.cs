@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Yanoac.V2.Models.Score;
 using Yanoac.V2.Requests;
 
