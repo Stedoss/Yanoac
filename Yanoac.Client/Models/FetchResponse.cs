@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -18,7 +19,7 @@ public class FetchResponse
 
     public bool IsSuccessStatusCode => httpResponseMessage.IsSuccessStatusCode;
 
-    public async Task<T?> ContentAsJson<T>() => await JsonSerializer.DeserializeAsync<T>(await httpResponseMessage.Content.ReadAsStreamAsync());
+    public async Task<T> ContentAsJson<T>() => await JsonSerializer.DeserializeAsync<T>(await httpResponseMessage.Content.ReadAsStreamAsync()) ?? throw new Exception();
 
     public async Task<string> ContentAsString() => await httpResponseMessage.Content.ReadAsStringAsync();
 

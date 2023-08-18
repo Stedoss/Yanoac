@@ -6,14 +6,14 @@ namespace Yanoac.V2;
 
 public partial class OsuClientV2
 {
-    public async Task<Beatmap?> LookupBeatmap(LookupBeatmapRequest request)
+    public async Task<BeatmapWithBeatmapSet> LookupBeatmap(LookupBeatmapRequest request)
     {
         var fetchResponse = await Fetch(request);
 
-        return await fetchResponse.ContentAsJson<Beatmap>();
+        return await fetchResponse.ContentAsJson<BeatmapWithBeatmapSet>();
     }
 
-    public async Task<Beatmap?> LookupBeatmap(int? id = null, string? filename = null, string? checksum = null)
+    public async Task<BeatmapWithBeatmapSet> LookupBeatmap(int? id = null, string? filename = null, string? checksum = null)
     {
         var request = new LookupBeatmapRequest
         {

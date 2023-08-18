@@ -1,6 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using FluentAssertions;
 using NUnit.Framework;
 using Yanoac.IntegrationTests.Bases;
+using Yanoac.IntegrationTests.Data;
+using Yanoac.IntegrationTests.Helpers;
 
 namespace Yanoac.IntegrationTests.Partials;
 
@@ -9,9 +13,11 @@ public class ScoresFragmentTests : AuthenticatedAuthCodeClientTest
     [Test]
     public async Task GetScore()
     {
-        object score = await Client.GetScore("osu", 2610098209);
+        var testScore = ScoreTestData.TestScores.First();
 
-        Assert.That(score, Is.Not.Null);
+        var score = await Client.GetScore("osu", testScore.Id);
+
+        score.AsTestable().Should().BeEquivalentTo(testScore.AsTestable());
     }
 
     [Test]

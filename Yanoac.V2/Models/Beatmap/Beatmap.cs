@@ -61,7 +61,4 @@ public record Beatmap : BeatmapCompact
 
     [JsonPropertyName("checksum")]
     public string Checksum { get; set; } = null!;
-
-    [JsonPropertyName("beatmapset")]
-    public BeatmapSet BeatmapSet => new();
 }

@@ -17,7 +17,9 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Yanoac.Client\Yanoac.Client.csproj" />
+
     </ItemGroup>
+
 
 
 

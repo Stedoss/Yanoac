@@ -1,11 +1,13 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using Yanoac.V2.Models.Score;
 using Yanoac.V2.Requests;
 
 namespace Yanoac.V2;
 
 public partial class OsuClientV2
 {
-    public async Task<object> GetScore(string mode, long scoreId)
+    public async Task<UserScore> GetScore(string mode, long scoreId)
     {
         var request = new GetScoreByIdRequest
         {
@@ -15,7 +17,7 @@ public partial class OsuClientV2
 
         var fetchResponse = await Fetch(request);
 
-        return fetchResponse.ContentAsJson<dynamic>();
+        return await fetchResponse.ContentAsJson<UserScore>();
     }
 
     public async Task<byte[]> DownloadScore(string mode, string score)

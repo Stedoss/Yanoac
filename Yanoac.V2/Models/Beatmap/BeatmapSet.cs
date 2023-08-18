@@ -2,27 +2,8 @@
 
 namespace Yanoac.V2.Models.Beatmap;
 
-public record BeatmapSet
+public record BeatmapSet : BeatmapSetCompact
 {
-    public string Artist { get; set; } = null!;
-    public string ArtistUnicode { get; set; } = null!;
-    public object Covers { get; set; } = null!;
-    public string Creator { get; set; } = null!;
-    public int FavouriteCount { get; set; }
-    public object? Hype { get; set; }
-    public int Id { get; set; }
-    public bool Nsfw { get; set; }
-    public int Offset { get; set; }
-    public long PlayCount { get; set; }
-    public string PreviewUrl { get; set; } = null!;
-    public string Source { get; set; } = null!;
-    public bool Spotlight { get; set; }
-    public string Status { get; set; } = null!;
-    public string Title { get; set; } = null!;
-    public string TitleUnicode { get; set; } = null!;
-    public int TrackId { get; set; }
-    public int UserId { get; set; }
-    public bool Video { get; set; }
     public int Bpm { get; set; }
     public bool CanBeHyped { get; set; }
     public DateTime DeletedAt { get; set; }
