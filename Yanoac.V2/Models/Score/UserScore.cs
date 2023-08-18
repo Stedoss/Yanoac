@@ -37,7 +37,7 @@ public record UserScore
     public bool Perfect { get; set; }
 
     [JsonPropertyName("pp")]
-    public float Pp { get; set; }
+    public float? Pp { get; set; }
 
     [JsonPropertyName("rank")]
     public string Rank { get; set; }

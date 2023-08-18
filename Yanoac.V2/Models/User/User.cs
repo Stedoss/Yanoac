@@ -33,7 +33,7 @@ public record User
     public bool IsSupporter { get; set; }
 
     [JsonPropertyName("last_visit")]
-    public DateTime LastVisit { get; set; }
+    public DateTime? LastVisit { get; set; }
 
     [JsonPropertyName("pm_friends_only")]
     public bool PmFriendsOnly { get; set; }
